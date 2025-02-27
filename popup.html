@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Absence Marker</title>
+  <style>
+    /* Import a modern font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+    body {
+      width: 310px; /* Original width */
+      height: 300px; /* Original height */
+      padding: 10px;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradient background */
+      overflow: hidden; /* Prevent scrollbars */
+      border-radius: 15px; /* Rounded corners for the extension window */
+    }
+
+    h2 {
+      margin-top: 10px;
+      text-align: center;
+      color: #2c3e50; /* Dark blue-gray for contrast */
+      font-size: 20px; /* Slightly smaller font size */
+      font-weight: 600;
+    }
+
+    textarea {
+      width: 300px; /* Increased length of the input box */
+      height: 80px; /* Smaller height to fit the popup */
+      position: absolute;
+      right: 10px; /* Move to the right side */
+      top: 60px; /* Adjusted to fit within the popup */
+      margin-bottom: 10px;
+      padding: 8px;
+      border: none;
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px; /* Smaller font size */
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+      transition: box-shadow 0.3s ease; /* Smooth hover effect */
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on focus */
+    }
+
+    button {
+      width: 120px; /* Reduced size of the button */
+      padding: 8px;
+      background: linear-gradient(135deg, #4285f4, #3367d6); /* Gradient button */
+      color: white;
+      border: none;
+      border-radius: 8px; /* Rounded corners */
+      cursor: pointer;
+      position: absolute;
+      right: 10px; /* Align with the textarea */
+      top: 150px; /* Adjusted to fit below the textarea */
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px; /* Smaller font size */
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+    }
+
+    button:hover {
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    }
+
+    .info {
+      margin-top: 10px;
+      font-size: 10px; /* Smaller font size */
+      color: #666;
+      position: absolute;
+      bottom: 10px; /* Place at the bottom of the popup */
+      left: 10px; /* Align to the left */
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+      padding: 8px;
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    .info p {
+      margin: 0 0 8px 0;
+      font-weight: 500;
+      color: #2c3e50; /* Dark blue-gray for contrast */
+    }
+
+    .info ol {
+      margin: 0;
+      padding-left: 15px;
+    }
+
+    .info ol li {
+      margin-bottom: 4px;
+    }
+
+    #status {
+      font-weight: 500;
+      color: #4285f4; /* Blue color for status messages */
+    }
+    
+    .dev-info {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 10px;
+      background-color: #3367d6;
+      color: white;
+      padding: 5px 8px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      width: auto;
+      height: auto;
+      min-width: 20px;
+      min-height: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .dev-info:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+    
+    .dev-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .dev-modal-content {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 300px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .dev-modal-content p {
+      margin: 5px 0;
+      font-size: 12px;
+      color: #2c3e50;
+      line-height: 1.4;
+    }
+    
+    .dev-modal-close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #2c3e50;
+      width: auto;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+    }
+    
+    .dev-modal-close:hover {
+      color: #e74c3c;
+      transform: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Student Absence Marker</h2>
+  <textarea id="absentIds" placeholder="e.g. 24090000&#10;240905000"></textarea>
+  <button id="untickButton">Mark Absent</button>
+  <div id="status" class="info"></div>
+  <div class="info">
+    <p>Instructions:</p>
+    <ol>
+      <li>Enter enrollment IDs of absent students</li>
+      <li>Click the button to untick them on the page</li>
+    </ol>
+  </div>
+  
+  <button class="dev-info" id="devInfoBtn">i</button>
+  
+  <div class="dev-modal" id="devModal">
+  <div class="dev-modal-content">
+    <button class="dev-modal-close" id="devModalClose">&times;</button>
+    <p><strong>Developer:</strong> Anirudhan Adukkathayar C</p>
+    <p>Asst. Professor, DSCA, MIT</p>
+    <p><strong>Courtesy:</strong> Dr. Chithra K</p>
+  </div>
+</div>
+  
+  <script src="popup.js"></script>
+  <script src="popup-modal.js"></script>
+</body>
+</html>
