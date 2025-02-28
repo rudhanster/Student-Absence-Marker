@@ -15,7 +15,7 @@ A Chrome extension that helps teachers and educators mark student absences by au
 ## Installation
 
 ### Manual Installation (Developer Mode)
-1. Download or clone this repository
+1. Download or clone this repository [unzip if required]
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable "Developer mode" in the top right corner
 4. Click "Load unpacked" and select the directory containing the extension files
